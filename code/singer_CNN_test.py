@@ -22,8 +22,9 @@ from random import sample # random selection
 from scipy.fftpack import dct
 
 
-test_model=load_model('/home/groupdl2/singer_identification/singer_MFECCNN1.h5')
-indir = '/home/groupdl2/singer_identification/3Rafi_cut/'  # Directory of class1 wav file
+#test_model=load_model('/home/muralikrishna/Desktop/DL_project/Models/singer_CNN1.h5') # With MFCC
+test_model=load_model('/home/muralikrishna/Desktop/DL_project/Models/singer_MFECCNN1.h5') # With MFEC
+indir = '/home/muralikrishna/Desktop/DL_project/Songs_data/singer_identification/3Rafi_cut/'  # Directory of class1 wav file
 
 def mfcc_features(path_file, frame_size, frame_stride):
     sample_rate, signal = wavfile.read(path_file)
@@ -133,7 +134,7 @@ for root, dirs, filenames in os.walk(indir):
 		std = x.std(axis=0)
 		np.place(std, std == 0, 1) #so that the standard deviation never becomes zero.   
 		x = (x - mu) / std
-		x = x.reshape(x.shape[0], 7, 40, 1)  # We have 40 MFEC   or20 MFCC/frame with cl=2
+		x = x.reshape(x.shape[0], 7, 20, 1)  # We have 20 MFCC/frame with cl=2
 		labels = test_model.predict(x)
 
 		k = labels.mean(axis=0)
